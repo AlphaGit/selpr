@@ -3,23 +3,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SecurityProcessReader"
         mc:Ignorable="d"
         Title="Security Event Log Process Reader" Height="350" Width="525"
         GiveFeedback="MainWindow_OnGiveFeedback"
         AllowDrop="True"
-        Drop="MainWindow_OnDrop">
+        Drop="MainWindow_OnDrop"
+        DataContext="{StaticResource MainWindowViewModel}">
     <Grid HorizontalAlignment="Center"
           VerticalAlignment="Center"
           Margin="0,0,0,0">
-        
-        <Button x:Name="btnBrowse" 
+
+        <Button x:Name="btnBrowse"
                 Content="Select an event log..." 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" 
-                Margin="0,0,0,0" 
-                Click="btnBrowse_Click" />
-
+                Margin="0" 
+                Padding="5"
+                Click="btnBrowse_Click" 
+                Visibility="{Binding IsBrowseButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            <Button.Effect>
+                <DropShadowEffect Color="#FFCBCBCB"/>
+            </Button.Effect>
+        </Button>
+        <Canvas x:Name="canvas" Grid.ColumnSpan="2" 
+                Visibility="{Binding IsProcessCanvasVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
         </Canvas>
     </Grid>
 </Window>

@@ -67,6 +67,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ProcessDescriptor.cs" />
     <Compile Include="ProcessTreeGenerator.cs" />
     <Compile Include="Properties\Annotations.cs" />
