@@ -7,8 +7,8 @@
     <ProjectGuid>{3E1544E0-A958-4721-B446-472310F9749B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SecurityProcessReader</RootNamespace>
-    <AssemblyName>SecurityProcessReader</AssemblyName>
+    <RootNamespace>SELPR</RootNamespace>
+    <AssemblyName>SecurityEventLogProcessReader</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

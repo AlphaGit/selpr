@@ -10,4 +10,4 @@ Security Event Log Process Reader
 - [ ] Nice design for the browse button
 - [ ] Visualization of process and children
 - [ ] Give the application an icon
-- [ ] Change namespaces to SELPR
+- [x] Change namespaces to SELPR

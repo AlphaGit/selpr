@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SecurityProcessReader
+namespace SELPR
 {
     class SecurityEventLogEntry
     {

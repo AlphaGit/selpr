@@ -2,8 +2,9 @@
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
+using SecurityProcessReader;
 
-namespace SecurityProcessReader
+namespace SELPR
 {
     public partial class MainWindow : Window
     {

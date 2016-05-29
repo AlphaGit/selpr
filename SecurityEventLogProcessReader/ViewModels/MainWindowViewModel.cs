@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Mvvm;
 
-namespace SecurityProcessReader.ViewModels
+namespace SELPR.ViewModels
 {
     public class MainWindowViewModel: BindableBase
     {
