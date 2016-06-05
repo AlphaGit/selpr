@@ -81,7 +81,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\BrowseFileCommand.cs" />
-    <Compile Include="Commands\OpenEventLogFileCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Services\EventLogFileService.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
