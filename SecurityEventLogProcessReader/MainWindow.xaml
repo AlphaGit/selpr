@@ -3,23 +3,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="Security Event Log Process Reader" Height="350" Width="525"
-        GiveFeedback="MainWindow_OnGiveFeedback"
         AllowDrop="True"
-        Drop="MainWindow_OnDrop"
         DataContext="{StaticResource MainWindowViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="GiveFeedback">
+            <prism:InvokeCommandAction Command="{Binding GiveFeedbackCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Drop">
+            <prism:InvokeCommandAction Command="{Binding DropOnWindowCommand}" 
+                                       TriggerParameterPath="Data" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Grid HorizontalAlignment="Center"
           VerticalAlignment="Center"
           Margin="0,0,0,0">
-
         <Button x:Name="btnBrowse"
                 Content="Select an event log..." 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" 
                 Margin="0" 
                 Padding="5"
-                Click="btnBrowse_Click" 
+                Command="{Binding BrowseFileCommand}"
                 Visibility="{Binding IsBrowseButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
             <Button.Effect>
                 <DropShadowEffect Color="#FFCBCBCB"/>
