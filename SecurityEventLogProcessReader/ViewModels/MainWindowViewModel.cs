@@ -10,14 +10,14 @@ namespace SELPR.ViewModels
     public class MainWindowViewModel: BindableBase
     {
         public bool IsProcessCanvasVisible => _isEventFileLoaded;
-        public BrowseFileCommand BrowseFileCommand { get; set; }
-        public bool IsBrowseButtonVisible => BrowseFileCommand.CanExecute(null) && !_isEventFileLoaded;
+        public DelegateCommand BrowseFileCommand { get; set; }
+        public bool IsBrowseButtonVisible => BrowseFileCommand.CanExecute() && !_isEventFileLoaded;
         public DelegateCommand<IDataObject> DropOnWindowCommand { get; set; }
         public DelegateCommand<GiveFeedbackEventArgs> GiveFeedbackCommand { get; set; }
 
         public MainWindowViewModel()
         {
-            BrowseFileCommand = new BrowseFileCommand(); //TODO should call OpenFile after this, but then, how to isolate its logic?
+            BrowseFileCommand = new DelegateCommand(BrowseAndOpenFile, () => _browseFileCommand.CanExecute(null));
             DropOnWindowCommand = new DelegateCommand<IDataObject>(OnDrop, (d) => true);
             GiveFeedbackCommand = new DelegateCommand<GiveFeedbackEventArgs>(OnGiveFeedback, (g) => true);
         }
@@ -25,6 +25,16 @@ namespace SELPR.ViewModels
         private bool _isEventFileLoaded;
 
         private readonly EventLogFileService _eventLogFileService = new EventLogFileService();
+
+        private BrowseFileCommand _browseFileCommand = new BrowseFileCommand();
+
+        private void BrowseAndOpenFile()
+        {
+            _browseFileCommand.Execute(null);
+            var fileName = _browseFileCommand.ExecutionResult;
+            if (!string.IsNullOrWhiteSpace(fileName))
+                OpenFile(fileName);
+        }
 
         private void OpenFile(string fileName)
         {
