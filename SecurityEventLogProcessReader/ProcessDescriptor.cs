@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SELPR
 {
-    class ProcessDescriptor
+    public class ProcessDescriptor
     {
         public DateTime TimeCreated { get; set; }
         public int ProcessId { get; set; }

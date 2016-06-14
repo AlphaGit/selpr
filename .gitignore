@@ -237,3 +237,6 @@ _Pvt_Extensions
 
 SecurityProcessReader.sln.DotSettings
 *.DotSettings
+*.ncrunchsolution
+*.evtx
+*.ncrunchproject

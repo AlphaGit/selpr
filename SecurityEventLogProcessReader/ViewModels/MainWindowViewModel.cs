@@ -9,20 +9,34 @@ namespace SELPR.ViewModels
 {
     public class MainWindowViewModel: BindableBase
     {
-        public bool IsProcessCanvasVisible => _isEventFileLoaded;
+        public bool IsProcessCanvasVisible => IsEventFileLoaded;
+        public ProcessCanvasViewModel ProcessCanvas;
         public DelegateCommand BrowseFileCommand { get; set; }
-        public bool IsBrowseButtonVisible => BrowseFileCommand.CanExecute() && !_isEventFileLoaded;
+        public bool IsBrowseButtonVisible => BrowseFileCommand.CanExecute() && !IsEventFileLoaded;
         public DelegateCommand<IDataObject> DropOnWindowCommand { get; set; }
         public DelegateCommand<GiveFeedbackEventArgs> GiveFeedbackCommand { get; set; }
 
         public MainWindowViewModel()
         {
             BrowseFileCommand = new DelegateCommand(BrowseAndOpenFile, () => _browseFileCommand.CanExecute(null));
-            DropOnWindowCommand = new DelegateCommand<IDataObject>(OnDrop, (d) => true);
-            GiveFeedbackCommand = new DelegateCommand<GiveFeedbackEventArgs>(OnGiveFeedback, (g) => true);
+            DropOnWindowCommand = new DelegateCommand<IDataObject>(OnDrop, d => true);
+            GiveFeedbackCommand = new DelegateCommand<GiveFeedbackEventArgs>(OnGiveFeedback, g => true);
         }
 
         private bool _isEventFileLoaded;
+        private bool IsEventFileLoaded
+        {
+            get
+            {
+                return _isEventFileLoaded;
+            }
+            set
+            {
+                SetProperty(ref _isEventFileLoaded, value);
+                OnPropertyChanged(nameof(IsEventFileLoaded)); // dependent on this property
+                OnPropertyChanged(nameof(IsBrowseButtonVisible)); // dependent on this property
+            }
+        }
 
         private readonly EventLogFileService _eventLogFileService = new EventLogFileService();
 
@@ -38,8 +52,9 @@ namespace SELPR.ViewModels
 
         private void OpenFile(string fileName)
         {
-            _eventLogFileService.OpenFile(fileName);
-            _isEventFileLoaded = true;
+            var processes = _eventLogFileService.OpenFile(fileName);
+            ProcessCanvas = new ProcessCanvasViewModel(processes);
+            IsEventFileLoaded = true;
         }
 
         private void OnGiveFeedback(GiveFeedbackEventArgs giveFeedbackEventArgs)
