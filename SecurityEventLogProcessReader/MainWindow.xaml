@@ -5,10 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:viewModels="clr-namespace:SELPR.ViewModels"
         mc:Ignorable="d"
         Title="Security Event Log Process Reader" Height="350" Width="525"
         AllowDrop="True"
         DataContext="{StaticResource MainWindowViewModel}">
+    <d:DesignProperties.DataContext>
+        <viewModels:MainWindowViewModel 
+            IsProcessCanvasVisible="False"
+            IsBrowseButtonVisible="True"
+             />
+        <!-- TODO Bind "Processes" for design time test -->
+    </d:DesignProperties.DataContext>
+    
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="GiveFeedback">
             <prism:InvokeCommandAction Command="{Binding GiveFeedbackCommand}" />
@@ -34,8 +43,16 @@
                 <DropShadowEffect Color="#FFCBCBCB"/>
             </Button.Effect>
         </Button>
-        <Canvas x:Name="canvas" Grid.ColumnSpan="2" 
+        <Canvas x:Name="canvas"
+                Grid.ColumnSpan="3" 
                 Visibility="{Binding IsProcessCanvasVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            <ItemsControl ItemsSource="{Binding Path=ProcessCanvas.Processes}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Rectangle Fill="Aqua" Visibility="Visible" Stroke="Aqua" Width="100" Height="100" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Canvas>
     </Grid>
 </Window>

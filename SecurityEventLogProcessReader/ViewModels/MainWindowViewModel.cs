@@ -9,33 +9,37 @@ namespace SELPR.ViewModels
 {
     public class MainWindowViewModel: BindableBase
     {
-        public bool IsProcessCanvasVisible => IsEventFileLoaded;
-        public ProcessCanvasViewModel ProcessCanvas;
+        #region Bindable properties
+        private bool _isProcessCanvasVisible = false;
+        public bool IsProcessCanvasVisible
+        {
+            get { return _isProcessCanvasVisible; }
+            set { SetProperty(ref _isProcessCanvasVisible, value); }
+        }
+
+        private bool _isBrowseButtonVisible = true;
+        public bool IsBrowseButtonVisible
+        {
+            get { return _isBrowseButtonVisible; }
+            set { SetProperty(ref _isBrowseButtonVisible, value); }
+        }
+        #endregion
+
+        #region Commands
         public DelegateCommand BrowseFileCommand { get; set; }
-        public bool IsBrowseButtonVisible => BrowseFileCommand.CanExecute() && !IsEventFileLoaded;
         public DelegateCommand<IDataObject> DropOnWindowCommand { get; set; }
         public DelegateCommand<GiveFeedbackEventArgs> GiveFeedbackCommand { get; set; }
+        #endregion
+
+        #region Sub view-models
+        public ProcessCanvasViewModel ProcessCanvas { get; set; }
+        #endregion
 
         public MainWindowViewModel()
         {
             BrowseFileCommand = new DelegateCommand(BrowseAndOpenFile, () => _browseFileCommand.CanExecute(null));
             DropOnWindowCommand = new DelegateCommand<IDataObject>(OnDrop, d => true);
             GiveFeedbackCommand = new DelegateCommand<GiveFeedbackEventArgs>(OnGiveFeedback, g => true);
-        }
-
-        private bool _isEventFileLoaded;
-        private bool IsEventFileLoaded
-        {
-            get
-            {
-                return _isEventFileLoaded;
-            }
-            set
-            {
-                SetProperty(ref _isEventFileLoaded, value);
-                OnPropertyChanged(nameof(IsEventFileLoaded)); // dependent on this property
-                OnPropertyChanged(nameof(IsBrowseButtonVisible)); // dependent on this property
-            }
         }
 
         private readonly EventLogFileService _eventLogFileService = new EventLogFileService();
@@ -54,7 +58,8 @@ namespace SELPR.ViewModels
         {
             var processes = _eventLogFileService.OpenFile(fileName);
             ProcessCanvas = new ProcessCanvasViewModel(processes);
-            IsEventFileLoaded = true;
+            IsProcessCanvasVisible = true;
+            IsBrowseButtonVisible = false;
         }
 
         private void OnGiveFeedback(GiveFeedbackEventArgs giveFeedbackEventArgs)
