@@ -37,19 +37,18 @@ namespace SELPR.ViewModels
 
         public MainWindowViewModel()
         {
-            BrowseFileCommand = new DelegateCommand(BrowseAndOpenFile, () => _browseFileCommand.CanExecute(null));
+            BrowseFileCommand = new DelegateCommand(BrowseAndOpenFile, () => true);
             DropOnWindowCommand = new DelegateCommand<IDataObject>(OnDrop, d => true);
             GiveFeedbackCommand = new DelegateCommand<GiveFeedbackEventArgs>(OnGiveFeedback, g => true);
         }
 
         private readonly EventLogFileService _eventLogFileService = new EventLogFileService();
 
-        private BrowseFileCommand _browseFileCommand = new BrowseFileCommand();
+        private readonly BrowseFileCommand _browseFileCommand = new BrowseFileCommand();
 
         private void BrowseAndOpenFile()
         {
-            _browseFileCommand.Execute(null);
-            var fileName = _browseFileCommand.ExecutionResult;
+            var fileName = _browseFileCommand.Execute();
             if (!string.IsNullOrWhiteSpace(fileName))
                 OpenFile(fileName);
         }
