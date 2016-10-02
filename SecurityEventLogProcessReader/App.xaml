@@ -2,11 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewModels="clr-namespace:SELPR.ViewModels"
-             xmlns:converters="clr-namespace:SELPR.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <viewModels:MainWindowViewModel x:Key="MainWindowViewModel" />
         
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Application.Resources>
 </Application>

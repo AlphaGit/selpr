@@ -1,18 +1,29 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Practices.Prism.Mvvm;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace SELPR.ViewModels
 {
-    public class ProcessCanvasViewModel: BindableBase
+    public class ProcessCanvasViewModel: DependencyObject
     {
-        public List<ProcessDescriptor> Processes { get; set; }
+        public ObservableCollection<ProcessDescriptorViewModel> Processes
+        {
+            get { return (ObservableCollection<ProcessDescriptorViewModel>) GetValue(ProcessessProperty); }
+            set { SetValue(ProcessessProperty, value); }
+        }
 
         public ProcessCanvasViewModel(): this(null)
         { }
 
-        public ProcessCanvasViewModel(List<ProcessDescriptor> processes)
+        public ProcessCanvasViewModel(List<ProcessDescriptorViewModel> processes)
         {
-            Processes = processes;
+            if (processes == null)
+                processes = new List<ProcessDescriptorViewModel>();
+
+            Processes = new ObservableCollection<ProcessDescriptorViewModel>(processes);
         }
+
+        public static readonly DependencyProperty ProcessessProperty =
+            DependencyProperty.Register("Processes", typeof (ObservableCollection<ProcessDescriptorViewModel>), typeof (ProcessCanvasViewModel), new PropertyMetadata(null));
     }
 }

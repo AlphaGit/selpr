@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
@@ -56,7 +57,8 @@ namespace SELPR.ViewModels
         private void OpenFile(string fileName)
         {
             var processes = _eventLogFileService.OpenFile(fileName);
-            ProcessCanvas = new ProcessCanvasViewModel(processes);
+            var processesViewModels = processes?.Select(p => new ProcessDescriptorViewModel(p)).ToList();
+            ProcessCanvas = new ProcessCanvasViewModel(processesViewModels);
             IsProcessCanvasVisible = true;
             IsBrowseButtonVisible = false;
         }

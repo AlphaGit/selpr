@@ -10,12 +10,32 @@
         Title="Security Event Log Process Reader" Height="350" Width="525"
         AllowDrop="True"
         DataContext="{StaticResource MainWindowViewModel}">
+    <Window.Resources>
+        <HierarchicalDataTemplate x:Key="ProcessDescriptorTemplate" DataType="{x:Type viewModels:ProcessDescriptorViewModel}">
+            <StackPanel>
+                <Line X1="-10" Y1="-10" X2="0" Y2="0" Stroke="Black" Visibility="{Binding HasParent, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+                <TextBlock Text="{Binding Path=CommandLine}" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+    </Window.Resources>
+    
     <d:DesignProperties.DataContext>
         <viewModels:MainWindowViewModel 
-            IsProcessCanvasVisible="False"
-            IsBrowseButtonVisible="True"
-             />
-        <!-- TODO Bind "Processes" for design time test -->
+            IsProcessCanvasVisible="True"
+            IsBrowseButtonVisible="False">
+            <viewModels:MainWindowViewModel.ProcessCanvas>
+                <viewModels:ProcessCanvasViewModel>
+                    <viewModels:ProcessCanvasViewModel.Processes>
+                        <viewModels:ProcessDescriptorViewModel CommandLine="echo 1">
+                            <viewModels:ProcessDescriptorViewModel.Parent>
+                                <viewModels:ProcessDescriptorViewModel CommandLine="cmd.exe -c echo 1" />
+                            </viewModels:ProcessDescriptorViewModel.Parent>
+                        </viewModels:ProcessDescriptorViewModel>
+                        <viewModels:ProcessDescriptorViewModel CommandLine="cmd.exe -c echo 2" />
+                    </viewModels:ProcessCanvasViewModel.Processes>
+                </viewModels:ProcessCanvasViewModel>
+            </viewModels:MainWindowViewModel.ProcessCanvas>
+        </viewModels:MainWindowViewModel>
     </d:DesignProperties.DataContext>
     
     <i:Interaction.Triggers>
@@ -46,13 +66,7 @@
         <Canvas x:Name="canvas"
                 Grid.ColumnSpan="3" 
                 Visibility="{Binding IsProcessCanvasVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-            <ItemsControl ItemsSource="{Binding Path=ProcessCanvas.Processes}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Rectangle Fill="Aqua" Visibility="Visible" Stroke="Aqua" Width="100" Height="100" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <TreeView ItemsSource="{Binding Path=ProcessCanvas.Processes}" ItemTemplate="{StaticResource ProcessDescriptorTemplate}" />
         </Canvas>
     </Grid>
 </Window>
