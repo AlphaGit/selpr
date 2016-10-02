@@ -12,14 +12,26 @@
         DataContext="{StaticResource MainWindowViewModel}">
     <Window.Resources>
         <HierarchicalDataTemplate x:Key="ProcessDescriptorTemplate" DataType="{x:Type viewModels:ProcessDescriptorViewModel}" ItemsSource="{Binding ChildrenProcessess}">
+            <!-- TODO: uncomment when using custom design instead of TreeView defaults
             <StackPanel Orientation="Horizontal">
                 <Line X1="0" Y1="0" X2="0" Y2="10" Stroke="Black"
                     Visibility="{Binding HasParent, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
                 <Line X1="0" Y1="10" X2="10" Y2="10" Stroke="Black"
                       Margin="0, 0, 5, 0"
                       Visibility="{Binding HasParent, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
-                <TextBlock Text="{Binding Path=CommandLine}" />
+                -->
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}({0}) {1} // {2}">
+                            <Binding Path="ProcessId" />
+                            <Binding Path="ProcessName" />
+                            <Binding Path="CommandLine" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            <!-- TODO: uncomment when using custom design instead of TreeView defaults
             </StackPanel>
+            -->
         </HierarchicalDataTemplate>
     </Window.Resources>
 
@@ -30,9 +42,9 @@
             <viewModels:MainWindowViewModel.ProcessCanvas>
                 <viewModels:ProcessCanvasViewModel>
                     <viewModels:ProcessCanvasViewModel.Processes>
-                        <viewModels:ProcessDescriptorViewModel CommandLine="cmd.exe -c echo 1">
+                        <viewModels:ProcessDescriptorViewModel ProcessId="1" ProcessName="Command Prompt" CommandLine="cmd.exe -c echo 1">
                             <viewModels:ProcessDescriptorViewModel.ChildrenProcessess>
-                                <viewModels:ProcessDescriptorViewModel CommandLine="echo 1">
+                                <viewModels:ProcessDescriptorViewModel ProcessId="3" ProcessName="Echo" CommandLine="echo 1">
                                     <viewModels:ProcessDescriptorViewModel.Parent>
                                         <viewModels:ProcessDescriptorViewModel CommandLine="cmd.exe -c echo 1" />
                                     </viewModels:ProcessDescriptorViewModel.Parent>
@@ -40,9 +52,9 @@
                             </viewModels:ProcessDescriptorViewModel.ChildrenProcessess>
                         </viewModels:ProcessDescriptorViewModel>
 
-                        <viewModels:ProcessDescriptorViewModel CommandLine="cmd.exe -c echo 2">
+                        <viewModels:ProcessDescriptorViewModel ProcessId="2" ProcessName="Command Prompt" CommandLine="cmd.exe -c echo 2">
                             <viewModels:ProcessDescriptorViewModel.ChildrenProcessess>
-                                <viewModels:ProcessDescriptorViewModel CommandLine="echo 2">
+                                <viewModels:ProcessDescriptorViewModel ProcessId="4" ProcessName="Echo" CommandLine="echo 2">
                                     <viewModels:ProcessDescriptorViewModel.Parent>
                                         <viewModels:ProcessDescriptorViewModel CommandLine="cmd.exe -c echo 2" />
                                     </viewModels:ProcessDescriptorViewModel.Parent>
@@ -80,8 +92,8 @@
         </Button>
 
         <ScrollViewer
-            HorizontalScrollBarVisibility="Visible"
-            VerticalScrollBarVisibility="Hidden"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto"
             Visibility="{Binding IsProcessCanvasVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
             <StackPanel>
                 <TreeView ItemsSource="{Binding Path=ProcessCanvas.Processes}" ItemTemplate="{StaticResource ProcessDescriptorTemplate}">
