@@ -91,19 +91,14 @@
             </Button.Effect>
         </Button>
 
-        <ScrollViewer
-            HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto"
-            Visibility="{Binding IsProcessCanvasVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-            <StackPanel>
-                <TreeView ItemsSource="{Binding Path=ProcessCanvas.Processes}" ItemTemplate="{StaticResource ProcessDescriptorTemplate}">
-                    <TreeView.ItemContainerStyle>
-                        <Style TargetType="{x:Type TreeViewItem}">
-                            <Setter Property="IsExpanded" Value="True" />
-                        </Style>
-                    </TreeView.ItemContainerStyle>
-                </TreeView>
-            </StackPanel>
-        </ScrollViewer>
+        <TreeView ItemsSource="{Binding Path=ProcessCanvas.Processes}"
+                  ItemTemplate="{StaticResource ProcessDescriptorTemplate}"
+                  Visibility="{Binding IsProcessCanvasVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
     </Grid>
 </Window>
