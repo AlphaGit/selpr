@@ -54,23 +54,30 @@ namespace SELPR.ViewModels
             set { SetProperty(ref _childrenProcesses, value); }
         }
 
-        public ProcessDescriptorViewModel(ProcessDescriptor process)
+        public ProcessDescriptorViewModel() { }
+
+        public ProcessDescriptorViewModel(ProcessDescriptor process): this(process, null) { }
+
+        private ProcessDescriptorViewModel(ProcessDescriptor process, ProcessDescriptorViewModel parent)
         {
             TimeCreated = process.TimeCreated;
             ProcessId = process.ProcessId;
             ProcessName = process.ProcessName;
             CommandLine = process.CommandLine;
 
-            if (process.Parent != null)
-                Parent = new ProcessDescriptorViewModel(process.Parent);
-
             if (process.ChildrenProcesses?.Any() == true)
-                ChildrenProcessess = new ObservableCollection<ProcessDescriptorViewModel>(process.ChildrenProcesses.Select(cp => new ProcessDescriptorViewModel(cp)));
-        }
+                ChildrenProcessess = new ObservableCollection<ProcessDescriptorViewModel>(process.ChildrenProcesses.Select(cp => new ProcessDescriptorViewModel(cp, this)));
 
-        public ProcessDescriptorViewModel()
-        {
-            
+            // we've been invoked by a parent creating it's children, do not fall into recursion
+            if (parent != null)
+            {
+                Parent = parent;
+            }
+            // we weren't invoked by a parent creating it's children, but we still have a parent to map
+            else if(process.Parent != null)
+            {
+                Parent = new ProcessDescriptorViewModel(process.Parent);
+            }
         }
     }
 }

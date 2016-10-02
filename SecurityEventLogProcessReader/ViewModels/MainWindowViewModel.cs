@@ -33,7 +33,15 @@ namespace SELPR.ViewModels
         #endregion
 
         #region Sub view-models
-        public ProcessCanvasViewModel ProcessCanvas { get; set; }
+
+        private ProcessCanvasViewModel _processCanvas;
+
+        public ProcessCanvasViewModel ProcessCanvas
+        {
+            get { return _processCanvas; }
+            set { SetProperty(ref _processCanvas, value); }
+        }
+
         #endregion
 
         public MainWindowViewModel()
