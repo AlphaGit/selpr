@@ -1,4 +1,5 @@
-﻿using SELPR.UiAbstractions;
+﻿using System;
+using SELPR.UiAbstractions;
 
 namespace SELPR.Commands
 {
@@ -8,6 +9,8 @@ namespace SELPR.Commands
 
         public BrowseFileCommand(IOpenFileDialog openFileDialog)
         {
+            if (openFileDialog == null) throw new ArgumentNullException(nameof(openFileDialog));
+
             _openFileDialog = openFileDialog;
         }
 
