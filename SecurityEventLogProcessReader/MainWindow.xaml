@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         Title="Security Event Log Process Reader" Height="350" Width="525"
         AllowDrop="True"
-        DataContext="{StaticResource MainWindowViewModel}">
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
+        >
     <Window.Resources>
         <HierarchicalDataTemplate x:Key="ProcessDescriptorTemplate" DataType="{x:Type viewModels:ProcessDescriptorViewModel}" ItemsSource="{Binding ChildrenProcessess}">
             <!-- TODO: uncomment when using custom design instead of TreeView defaults

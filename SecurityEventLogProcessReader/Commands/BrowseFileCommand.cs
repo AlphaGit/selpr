@@ -1,18 +1,22 @@
-﻿using Microsoft.Win32;
+﻿using SELPR.UiAbstractions;
 
 namespace SELPR.Commands
 {
-    public class BrowseFileCommand
+    public class BrowseFileCommand : IBrowseFileCommand
     {
+        private readonly IOpenFileDialog _openFileDialog;
+
+        public BrowseFileCommand(IOpenFileDialog openFileDialog)
+        {
+            _openFileDialog = openFileDialog;
+        }
+
         public string Execute()
         {
-            var openFileDialog = new OpenFileDialog()
-            {
-                Multiselect = false,
-                Filter = "Event log files (*.evtx)|*.evtx"
-            };
+            _openFileDialog.Multiselect = false;
+            _openFileDialog.Filter = "Event log files (*.evtx)|*.evtx";
 
-            return openFileDialog.ShowDialog() == true ? openFileDialog.FileName : null;
+            return _openFileDialog.ShowDialog() == true ? _openFileDialog.FileName : null;
         }
     }
 }

@@ -10,6 +10,16 @@ namespace SELPR.ViewModels
 {
     public class MainWindowViewModel: BindableBase
     {
+        private readonly IBrowseFileCommand _browseFileCommand;
+        public MainWindowViewModel(IBrowseFileCommand browseFileCommand)
+        {
+            _browseFileCommand = browseFileCommand;
+
+            BrowseFileCommand = new DelegateCommand(BrowseAndOpenFile, () => true);
+            DropOnWindowCommand = new DelegateCommand<IDataObject>(OnDrop, d => true);
+            GiveFeedbackCommand = new DelegateCommand<GiveFeedbackEventArgs>(OnGiveFeedback, g => true);
+        }
+
         #region Bindable properties
         private bool _isProcessCanvasVisible = false;
         public bool IsProcessCanvasVisible
@@ -44,16 +54,7 @@ namespace SELPR.ViewModels
 
         #endregion
 
-        public MainWindowViewModel()
-        {
-            BrowseFileCommand = new DelegateCommand(BrowseAndOpenFile, () => true);
-            DropOnWindowCommand = new DelegateCommand<IDataObject>(OnDrop, d => true);
-            GiveFeedbackCommand = new DelegateCommand<GiveFeedbackEventArgs>(OnGiveFeedback, g => true);
-        }
-
         private readonly EventLogFileService _eventLogFileService = new EventLogFileService();
-
-        private readonly BrowseFileCommand _browseFileCommand = new BrowseFileCommand();
 
         private void BrowseAndOpenFile()
         {
