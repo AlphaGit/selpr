@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SecurityProcessReader;
 
 namespace SELPR
 {
-    class ProcessTreeGenerator
+    class ProcessTreeGenerator : IProcessTreeGenerator
     {
         public List<ProcessDescriptor> ParseLogEntriesToProcessTree(List<SecurityEventLogEntry> logEntries)
         {

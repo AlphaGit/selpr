@@ -95,7 +95,10 @@
     <Compile Include="Commands\BrowseFileCommand.cs" />
     <Compile Include="Commands\IBrowseFileCommand.cs" />
     <Compile Include="DependencyInjector.cs" />
+    <Compile Include="IProcessTreeGenerator.cs" />
+    <Compile Include="ISecurityEventLogFileParser.cs" />
     <Compile Include="Services\EventLogFileService.cs" />
+    <Compile Include="Services\IEventLogFileService.cs" />
     <Compile Include="UiAbstractions\IOpenFileDialog.cs" />
     <Compile Include="UiImplementations\Win32OpenFileDialog.cs" />
     <Compile Include="ViewModelLocator.cs" />

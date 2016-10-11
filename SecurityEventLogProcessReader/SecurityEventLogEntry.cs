@@ -2,7 +2,7 @@
 
 namespace SELPR
 {
-    class SecurityEventLogEntry
+    public class SecurityEventLogEntry
     {
         public DateTime TimeCreated { get; set; }
         public int NewProcessId { get; set; }

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace SELPR
 {
-    class SecurityEventLogFileParser
+    class SecurityEventLogFileParser : ISecurityEventLogFileParser
     {
         private const string EventSchema = "http://schemas.microsoft.com/win/2004/08/events/event";
 

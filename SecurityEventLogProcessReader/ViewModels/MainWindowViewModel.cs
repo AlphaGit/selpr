@@ -11,9 +11,12 @@ namespace SELPR.ViewModels
     public class MainWindowViewModel: BindableBase
     {
         private readonly IBrowseFileCommand _browseFileCommand;
-        public MainWindowViewModel(IBrowseFileCommand browseFileCommand)
+        private readonly IEventLogFileService _eventLogFileService;
+
+        public MainWindowViewModel(IBrowseFileCommand browseFileCommand, IEventLogFileService eventLogFileService)
         {
             _browseFileCommand = browseFileCommand;
+            _eventLogFileService = eventLogFileService;
 
             BrowseFileCommand = new DelegateCommand(BrowseAndOpenFile, () => true);
             DropOnWindowCommand = new DelegateCommand<IDataObject>(OnDrop, d => true);
@@ -53,8 +56,6 @@ namespace SELPR.ViewModels
         }
 
         #endregion
-
-        private readonly EventLogFileService _eventLogFileService = new EventLogFileService();
 
         private void BrowseAndOpenFile()
         {
