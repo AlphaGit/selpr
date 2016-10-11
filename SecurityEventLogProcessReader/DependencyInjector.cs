@@ -17,7 +17,11 @@ namespace SELPR
 
             Container.RegisterType<IBrowseFileCommand, BrowseFileCommand>(new InjectionConstructor(new ResolvedParameter<IOpenFileDialog>()));
             Container.RegisterType<MainWindowViewModel>(new InjectionConstructor(new ResolvedParameter<IBrowseFileCommand>(), new ResolvedParameter<IEventLogFileService>()));
-            Container.RegisterType<ISecurityEventLogFileParser, SecurityEventLogFileParser>();
+            
+            //TODO how to force this to be disposed after used?
+            Container.RegisterType<IEventLogFileReader, EventLogFileFileReader>();
+            Container.RegisterType<ISecurityEventLogFileParser, SecurityEventLogFileParser>(new InjectionConstructor(new ResolvedParameter<IEventLogFileReader>()));
+
             Container.RegisterType<IProcessTreeGenerator, ProcessTreeGenerator>();
             Container.RegisterType<IEventLogFileService, EventLogFileService>(new InjectionConstructor(new ResolvedParameter<ISecurityEventLogFileParser>(), new ResolvedParameter<IProcessTreeGenerator>()));
         }

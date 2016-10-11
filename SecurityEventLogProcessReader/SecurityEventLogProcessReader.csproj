@@ -95,6 +95,8 @@
     <Compile Include="Commands\BrowseFileCommand.cs" />
     <Compile Include="Commands\IBrowseFileCommand.cs" />
     <Compile Include="DependencyInjector.cs" />
+    <Compile Include="EventLogFileFileReader.cs" />
+    <Compile Include="IEventLogFileReader.cs" />
     <Compile Include="IProcessTreeGenerator.cs" />
     <Compile Include="ISecurityEventLogFileParser.cs" />
     <Compile Include="Services\EventLogFileService.cs" />
