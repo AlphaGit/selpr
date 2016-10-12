@@ -4,7 +4,7 @@ using Moq;
 using SELPR.Commands;
 using SELPR.UiAbstractions;
 
-namespace SecurityEventLogProcessReader.UnitTest
+namespace SecurityEventLogProcessReader.UnitTest.Commands
 {
     [TestClass]
     public class BrowseFileCommandTests

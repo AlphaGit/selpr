@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SELPR.Services
 {
@@ -10,6 +11,9 @@ namespace SELPR.Services
         public EventLogFileService(ISecurityEventLogFileParser securityEventLogFileParser,
             IProcessTreeGenerator processTreeGenerator)
         {
+            if (securityEventLogFileParser == null) throw new ArgumentNullException(nameof(securityEventLogFileParser));
+            if (processTreeGenerator == null) throw new ArgumentNullException(nameof(processTreeGenerator));
+
             _securityEventLogFileParser = securityEventLogFileParser;
             _processTreeGenerator = processTreeGenerator;
         }
