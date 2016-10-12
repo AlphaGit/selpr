@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
@@ -15,6 +16,9 @@ namespace SELPR.ViewModels
 
         public MainWindowViewModel(IBrowseFileCommand browseFileCommand, IEventLogFileService eventLogFileService)
         {
+            if (browseFileCommand == null) throw new ArgumentNullException(nameof(browseFileCommand));
+            if (eventLogFileService == null) throw new ArgumentNullException(nameof(eventLogFileService));
+
             _browseFileCommand = browseFileCommand;
             _eventLogFileService = eventLogFileService;
 
