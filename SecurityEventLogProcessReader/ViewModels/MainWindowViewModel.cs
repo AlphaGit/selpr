@@ -27,6 +27,9 @@ namespace SELPR.ViewModels
             GiveFeedbackCommand = new DelegateCommand<GiveFeedbackEventArgs>(OnGiveFeedback, g => true);
         }
 
+        // To be used by design-time XAML
+        public MainWindowViewModel() { }
+
         #region Bindable properties
         private bool _isProcessCanvasVisible = false;
         public bool IsProcessCanvasVisible

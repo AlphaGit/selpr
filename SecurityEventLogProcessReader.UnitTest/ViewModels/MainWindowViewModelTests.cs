@@ -67,5 +67,43 @@ namespace SecurityEventLogProcessReader.UnitTest.ViewModels
             Assert.IsTrue(mainWindowViewModel.IsProcessCanvasVisible);
             Assert.IsFalse(mainWindowViewModel.IsBrowseButtonVisible);
         }
+
+        [TestMethod]
+        public async Task ProcessCanvas_ContainsTheResultOfImportedFiles()
+        {
+            var eventLogFileServiceMock = new Mock<IEventLogFileService>();
+            var browseFileCommandMock = new Mock<IBrowseFileCommand>();
+
+            var processList = new List<ProcessDescriptor>()
+            {
+                new ProcessDescriptor()
+                {
+                    CommandLine = "cmd /c echo 1", ProcessId = 1, ProcessName = "parent1",
+                    ChildrenProcesses = new List<ProcessDescriptor>()
+                    {
+                        new ProcessDescriptor() { CommandLine = "echo 1", ProcessId = 2, ProcessName = "child1" }
+                    }
+                },
+                new ProcessDescriptor()
+                {
+                    CommandLine = "cmd /c echo 2", ProcessId = 3, ProcessName = "parent2",
+                    ChildrenProcesses = new List<ProcessDescriptor>()
+                    {
+                        new ProcessDescriptor() { CommandLine = "echo 2", ProcessId = 4, ProcessName = "child2" }
+                    }
+                }
+            };
+
+            browseFileCommandMock.Setup(m => m.Execute()).Returns("someFile.etvx");
+            eventLogFileServiceMock.Setup(m => m.OpenFile("someFile.etvx")).Returns(processList);
+
+            var mainWindowViewModel = new MainWindowViewModel(browseFileCommandMock.Object, eventLogFileServiceMock.Object);
+
+            await mainWindowViewModel.BrowseFileCommand.Execute();
+
+            Assert.IsNotNull(mainWindowViewModel.ProcessCanvas);
+            Assert.IsNotNull(mainWindowViewModel.ProcessCanvas.Processes);
+            Assert.AreEqual(2, mainWindowViewModel.ProcessCanvas.Processes.Count);
+        }
     }
 }
