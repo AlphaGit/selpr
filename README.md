@@ -1,3 +1,7 @@
+**Not currently under development**
+
+PoC was achieved. Next steps may come out of free time but I'm currently embarked in other projects. Please let me know if you'd like me to continue working on this.
+
 # selpr
 Security Event Log Process Reader
 
